@@ -18,20 +18,12 @@ X_train, X_test, y_train, y_test = train_test_split(
     stratify=y
 )
 
-mlflow.set_experiment("Fraud Detection Basic")
+mlflow.sklearn.autolog()
 
-with mlflow.start_run() as run:
-    model = RandomForestClassifier(
-        random_state=42
-    )
+model = RandomForestClassifier(random_state=42)
 
-    model.fit(X_train, y_train)
+model.fit(X_train, y_train)
 
-    accuracy = model.score(X_test, y_test)
+accuracy = model.score(X_test, y_test)
 
-    mlflow.log_metric("accuracy", accuracy)
-
-    mlflow.sklearn.log_model(
-        sk_model=model,
-        artifact_path="model"
-    )
+print(f"Accuracy: {accuracy}")
